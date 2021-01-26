@@ -1,10 +1,13 @@
 {
-  "name": "terraform-aws-next-js-default-app",
+  "name": "tfnext-app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "pretfbuild": "ts-node tools/pre-build.ts",
+    "tfbuild": "tf-next build",
+    "posttfbuild": "ts-node tools/post-build.ts",
     "start": "next start"
   },
   "dependencies": {
@@ -13,9 +16,12 @@
     "react-dom": "17.0.1"
   },
   "devDependencies": {
-    "@types/node": "^14.14.22",
+    "@types/node": "^12.19.15",
     "@types/react": "^17.0.0",
+    "@types/rimraf": "^3.0.0",
+    "rimraf": "^3.0.2",
     "tf-next": "^0.4.1",
+    "ts-node": "^9.1.1",
     "typescript": "^4.1.3"
   }
 }
