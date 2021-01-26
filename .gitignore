@@ -34,7 +34,10 @@ yarn-error.log*
 .vercel
 
 ##########################
+/.envrc
 /.next-tf/
 /.terraform/
-/.envrc
 /backend.hcl
+
+##########################
+/.idea

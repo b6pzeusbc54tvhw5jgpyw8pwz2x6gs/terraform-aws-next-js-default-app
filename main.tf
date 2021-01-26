@@ -16,7 +16,8 @@ module "tf-next" {
   // source = "github.com/b6pzeusbc54tvhw5jgpyw8pwz2x6gs/terraform-aws-next-js"
   // for local test
   source = "../terraform-aws-next-js"
-  name_prefix = "tf-next-app"
+
+  name_prefix = lookup(jsondecode(file("package.json")),"name","tfnext-app")
 }
 
 output "domain" {
