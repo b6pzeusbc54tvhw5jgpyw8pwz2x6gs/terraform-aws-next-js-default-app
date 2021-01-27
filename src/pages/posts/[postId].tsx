@@ -26,7 +26,9 @@ const PostPage:NextPage<Props> = (props) => {
         </p>
 
         <div>
-          <Link href="/">/index</Link>
+          <Link href="/">Go back index('/') page</Link>
+          <br/>
+          <Link href="/home">/home</Link>
           <br/>
           <Link href="/p-get-initial-props">/p-get-initial-props</Link>
           <br/>
@@ -36,11 +38,21 @@ const PostPage:NextPage<Props> = (props) => {
           <br/>
           <Link href="/p-without-any">/p-without-any</Link>
           <br/>
+          <Link href="/info/terms">/info/terms</Link>
+          <br/>
           <Link href="/posts/aaa">/posts/aaa</Link>
           <br/>
           <Link href="/posts/bbb">/posts/bbb</Link>
           <br/>
           <Link href="/posts/ccc">/posts/ccc</Link>
+          <br/>
+          <Link href="/newpage/a/b/c">Link /newpage/a/b/c</Link>
+          <br/>
+          <Link href="/oldpage/a/b/c">Link /oldpage/a/b/c</Link>
+          <br/>
+          <a href="/newpage/a/b/c">a tag /newpage/a/b/c</a>
+          <br/>
+          <a href="/oldpage/a/b/c">a tag /oldpage/a/b/c</a>
           <br/>
         </div>
       </main>

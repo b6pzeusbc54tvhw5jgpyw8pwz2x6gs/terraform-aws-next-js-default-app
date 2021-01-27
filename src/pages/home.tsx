@@ -1,8 +1,8 @@
 import Link from 'next/Link'
 import Head from 'next/head'
-import styles from '../../styles/Home.module.css'
+import styles from '../styles/Home.module.css'
 
-export default function Terms() {
+export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
@@ -16,7 +16,7 @@ export default function Terms() {
         </h1>
 
         <p className={styles.description}>
-          This is /info/terms.tsx
+          This is index.tsx
         </p>
 
         <div>
