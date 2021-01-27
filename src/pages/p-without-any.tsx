@@ -30,6 +30,8 @@ export default function PageWithoutAny() {
           <br/>
           <Link href="/p-without-any">/p-without-any</Link>
           <br/>
+          <Link href="/info/terms">/info/terms</Link>
+          <br/>
           <Link href="/posts/aaa">/posts/aaa</Link>
           <br/>
           <Link href="/posts/bbb">/posts/bbb</Link>
