@@ -4,6 +4,7 @@ import packageJson from '../package.json'
 
 const cwd = process.cwd()
 const identifier = process.env.LAMBDA_IDENTIFIER || packageJson.name
+const revisionOrTag = process.env.GIT_REVISION || `default`
 
 const getBuildId = (buildDir: string) => {
   const {buildId} = require(path.join(buildDir,'config.json'))
@@ -19,17 +20,29 @@ const getRouteName = (buildId: string, type: 'API' | 'PAGE') => {
     : `${identifier}-page-${buildId}`
 }
 
-const replaceConfigJson = (buildId: string, buildDir: string) => {
+const getLambdaFunctionName = (lambdaSuffix: string, type: 'API' | 'PAGE') => {
+  return type === 'API'
+    ? `${identifier}-api-${lambdaSuffix}`
+    : `${identifier}-page-${lambdaSuffix}`
+}
+
+const getConfigFile = (buildDir: string): string => {
+  const source = path.join(buildDir, 'config.json')
+  return fs.readFileSync(source, 'utf-8')
+}
+
+const backupConfig = (buildDir: string) => {
   const source = path.join(buildDir, 'config.json')
   const target = path.join(buildDir, 'config.backup.json')
   fs.copyFileSync(source, target)
-  const configJsonStr = fs.readFileSync(source, 'utf-8')
+}
 
-  const modified = configJsonStr
+const injectBuildIdConfigJson = (config: string, buildId: string) => {
+  const modified = config
     .replace(/__NEXT_API_LAMBDA_0/g, getRouteName(buildId, 'API'))
     .replace(/__NEXT_PAGE_LAMBDA_0/g,getRouteName(buildId, 'PAGE'))
 
-  fs.writeFileSync(source, modified)
+  return modified
 }
 
 const renameLambdaZipFiles = (buildId: string, buildDir: string) => {
@@ -50,10 +63,27 @@ const renameLambdaZipFiles = (buildId: string, buildDir: string) => {
   }
 }
 
+const replaceLambdaFunctionName = (modifiedConfig: string, lambdaSuffix: string) => {
+  const configJson = JSON.parse(modifiedConfig)
+  const modified = {
+    ...configJson,
+    lambdas: {
+      [getLambdaFunctionName(lambdaSuffix, 'API')]: configJson.lambdas.__NEXT_API_LAMBDA_0,
+      [getLambdaFunctionName(lambdaSuffix, 'PAGE')]: configJson.lambdas.__NEXT_PAGE_LAMBDA_0,
+    }
+  }
+  return JSON.stringify(modified,null,2)
+}
+
 const run = () => {
   const buildDir = path.join(cwd, '.next-tf')
   const buildId = getBuildId(buildDir)
-  replaceConfigJson(buildId, buildDir)
+  backupConfig(buildDir)
+  const config = getConfigFile(buildDir)
+  let modifiedConfig = replaceLambdaFunctionName(config, revisionOrTag)
+  modifiedConfig = injectBuildIdConfigJson(modifiedConfig, buildId)
+
+  fs.writeFileSync(path.join(buildDir, 'config.json'), modifiedConfig)
   renameLambdaZipFiles(buildId, buildDir)
 }
 
