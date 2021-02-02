@@ -1,3 +1,5 @@
+** Please do not use this repository. This is the one that failed to customize the original repository. Instead, check here: https://github.com/b6pzeusbc54tvhw5jgpyw8pwz2x6gs/terraform-aws-next-js **
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
